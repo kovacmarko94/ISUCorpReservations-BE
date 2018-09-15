@@ -1,5 +1,6 @@
 package IsuCorpReservations.IsuCorpReservations.rest;
 
+import IsuCorpReservations.IsuCorpReservations.dto.ContactDto;
 import IsuCorpReservations.IsuCorpReservations.model.Contact;
 import IsuCorpReservations.IsuCorpReservations.service.ContactService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ public class ContactController {
     private ContactService contactService;
 
     @RequestMapping(method = RequestMethod.GET)
-    public List<Contact> getAll() {
+    public List<ContactDto> getAll() {
         return contactService.findAll();
     }
 

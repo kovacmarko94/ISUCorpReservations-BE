@@ -26,7 +26,5 @@ public class Reservation {
     @ManyToOne
     private Contact contact;
 
-    public Reservation() {
-
-    }
+    public Reservation() { }
 }

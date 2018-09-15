@@ -1,7 +1,9 @@
 package IsuCorpReservations.IsuCorpReservations.service;
 
+import IsuCorpReservations.IsuCorpReservations.dto.ContactDto;
 import IsuCorpReservations.IsuCorpReservations.model.Contact;
 import IsuCorpReservations.IsuCorpReservations.repository.ContactRepository;
+import org.jtransfo.JTransfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,16 +18,21 @@ public class ContactService {
     @Autowired
     private ContactRepository contactRepository;
 
-    public Contact save(Contact contact) {
-        Contact sameContact = contactRepository.findByName(contact.getName());
-        if (sameContact != null) {
+    @Autowired
+    private JTransfo jTransfo;
+
+    public ContactDto save(Contact contact) {
+        Contact tempContact = contactRepository.findByName(contact.getName());
+        if (tempContact != null) {
             throw new EntityExistsException("Contact already exist!");
         }
-        return contactRepository.save(contact);
+        contact = contactRepository.save(contact);
+        return jTransfo.convertTo(contact, ContactDto.class);
     }
 
-    public List<Contact> findAll() {
-        return  contactRepository.findAll();
+    public List<ContactDto> findAll() {
+        List<Contact> contacts = contactRepository.findAll();
+        return jTransfo.convertList(contacts, ContactDto.class);
     }
 
     public Contact findById(Long id) {
@@ -33,7 +40,7 @@ public class ContactService {
         return contact.get();
     }
 
-    public Contact upadte(Long id, Contact newContact) throws EntityNotFoundException {
+    public ContactDto upadte(Long id, Contact newContact) throws EntityNotFoundException {
         Contact contact = findById(id);
         if (contact == null) {
             throw new EntityNotFoundException(String.format("Contact with %d does not exist!", id));
@@ -42,6 +49,7 @@ public class ContactService {
         contact.setType(newContact.getType());
         contact.setPhoneNumber(newContact.getPhoneNumber());
         contact.setDateOfBirth(newContact.getDateOfBirth());
-        return contactRepository.save(contact);
+        contact = contactRepository.save(contact);
+        return jTransfo.convertTo(contact, ContactDto.class);
     }
 }

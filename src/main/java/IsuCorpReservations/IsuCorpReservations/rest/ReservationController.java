@@ -1,5 +1,6 @@
 package IsuCorpReservations.IsuCorpReservations.rest;
 
+import IsuCorpReservations.IsuCorpReservations.dto.ReservationDto;
 import IsuCorpReservations.IsuCorpReservations.model.Reservation;
 import IsuCorpReservations.IsuCorpReservations.service.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,13 +18,13 @@ public class ReservationController {
     private ReservationService reservationService;
 
     @RequestMapping(method = RequestMethod.GET)
-    public List<Reservation> getAll() {
+    public List<ReservationDto> getAll() {
         return reservationService.findAll();
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ResponseEntity<?> getById(@PathVariable Long id) {
-        Reservation reservation = reservationService.findById(id);
+        ReservationDto reservation = reservationService.findById(id);
         if (reservation == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Reservation does not exist!");
         }
