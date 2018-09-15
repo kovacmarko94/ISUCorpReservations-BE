@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
 @RestController
@@ -24,7 +25,7 @@ public class ReservationController {
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ResponseEntity<?> getById(@PathVariable Long id) {
-        ReservationDto reservation = reservationService.findById(id);
+        Reservation reservation = reservationService.findById(id);
         if (reservation == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Reservation does not exist!");
         }
@@ -39,6 +40,18 @@ public class ReservationController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
         }
         return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    public ResponseEntity<String> create(@PathVariable Long id, @RequestBody final Reservation reservation) {
+        try {
+            reservationService.update(id, reservation);
+            return new ResponseEntity(HttpStatus.OK);
+        } catch (EntityNotFoundException ex) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+        } catch (Exception ex) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to update reservation!");
+        }
     }
 
 }

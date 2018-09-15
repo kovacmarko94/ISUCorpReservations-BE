@@ -43,7 +43,7 @@ public class ContactService {
     public ContactDto upadte(Long id, Contact newContact) throws EntityNotFoundException {
         Contact contact = findById(id);
         if (contact == null) {
-            throw new EntityNotFoundException(String.format("Contact with %d does not exist!", id));
+            throw new EntityNotFoundException(String.format("Contact with %d does not exist! Update failed!", id));
         }
         contact.setName(newContact.getName());
         contact.setType(newContact.getType());

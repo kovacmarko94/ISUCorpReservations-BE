@@ -8,6 +8,8 @@ import IsuCorpReservations.IsuCorpReservations.repository.ReservationRepository;
 import org.jtransfo.JTransfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
 
@@ -41,11 +43,21 @@ public class ReservationService {
         return jTransfo.convertList(reservations, ReservationDto.class);
     }
 
-    public ReservationDto findById(Long id) {
+    public Reservation findById(Long id) {
         Optional<Reservation> reservation = reservationRepository.findById(id);
-        if (!reservation.isPresent()) {
-            return null;
+        return reservation.isPresent() ? reservation.get() : null;
+    }
+
+    public ReservationDto update(Long id, Reservation newReservation) {
+        Reservation reservation = findById(id);
+        if (reservation == null) {
+            throw new EntityNotFoundException(String.format("Reservation with %d does not exist! Update failed!", id));
         }
-        return jTransfo.convertTo(reservation.get(), ReservationDto.class);
+        reservation.setDateOfCreation(newReservation.getDateOfCreation());
+        reservation.setRanking(newReservation.getRanking());
+        reservation.setFavorite(newReservation.isFavorite());
+        reservation.setHtmlContent(newReservation.getHtmlContent());
+        reservation = reservationRepository.save(reservation);
+        return jTransfo.convertTo(reservation, ReservationDto.class);
     }
 }
