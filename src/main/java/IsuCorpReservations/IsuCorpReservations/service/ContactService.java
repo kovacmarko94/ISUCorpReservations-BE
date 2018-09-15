@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -24,7 +24,7 @@ public class ContactService {
         return contactRepository.save(contact);
     }
 
-    public ArrayList<Contact> findAll() {
+    public List<Contact> findAll() {
         return  contactRepository.findAll();
     }
 

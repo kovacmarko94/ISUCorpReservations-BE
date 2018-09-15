@@ -1,11 +1,10 @@
 package IsuCorpReservations.IsuCorpReservations.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Data
@@ -23,6 +22,10 @@ public class Contact {
 
     @Column(nullable = false)
     private String dateOfBirth;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "contact")
+    private List<Reservation> reservations;
 
     public Contact(String name, int type, String dateOfBirth) {
         this.name = name;

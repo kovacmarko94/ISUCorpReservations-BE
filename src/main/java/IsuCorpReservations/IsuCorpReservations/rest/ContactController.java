@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
-import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/contacts")
@@ -19,7 +19,7 @@ public class ContactController {
     private ContactService contactService;
 
     @RequestMapping(method = RequestMethod.GET)
-    public ArrayList<Contact> getAll() {
+    public List<Contact> getAll() {
         return contactService.findAll();
     }
 
