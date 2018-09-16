@@ -24,7 +24,7 @@ public class Contact {
     private String dateOfBirth;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "contact")
+    @OneToMany(mappedBy = "contact", orphanRemoval = true, cascade = CascadeType.ALL)
     private List<Reservation> reservations;
 
     public Contact(String name, int type, String dateOfBirth) {

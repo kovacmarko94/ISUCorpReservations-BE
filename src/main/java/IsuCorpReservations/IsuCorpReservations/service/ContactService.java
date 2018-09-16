@@ -9,10 +9,12 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class ContactService {
 
     @Autowired
@@ -38,6 +40,10 @@ public class ContactService {
     public Contact findById(Long id) {
         Optional<Contact> contact = contactRepository.findById(id);
         return contact.get();
+    }
+
+    public void delete(Long id) {
+        contactRepository.deleteById(id);
     }
 
     public ContactDto upadte(Long id, Contact newContact) throws EntityNotFoundException {
