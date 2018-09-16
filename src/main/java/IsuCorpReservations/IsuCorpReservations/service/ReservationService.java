@@ -7,6 +7,8 @@ import IsuCorpReservations.IsuCorpReservations.repository.ContactRepository;
 import IsuCorpReservations.IsuCorpReservations.repository.ReservationRepository;
 import org.jtransfo.JTransfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
@@ -38,9 +40,9 @@ public class ReservationService {
         return jTransfo.convertTo(reservation, ReservationDto.class);
     }
 
-    public List<ReservationDto> findAll() {
-        List<Reservation> reservations = reservationRepository.findAll();
-        return jTransfo.convertList(reservations, ReservationDto.class);
+    public Page<Reservation> findAll(Pageable pageable) {
+        Page<Reservation> reservations = reservationRepository.findAll(pageable);
+        return reservations;
     }
 
     public Reservation findById(Long id) {

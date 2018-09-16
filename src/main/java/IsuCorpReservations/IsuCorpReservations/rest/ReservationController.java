@@ -1,15 +1,15 @@
 package IsuCorpReservations.IsuCorpReservations.rest;
 
-import IsuCorpReservations.IsuCorpReservations.dto.ReservationDto;
 import IsuCorpReservations.IsuCorpReservations.model.Reservation;
 import IsuCorpReservations.IsuCorpReservations.service.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityNotFoundException;
-import java.util.List;
 
 @RestController
 @RequestMapping("/reservations")
@@ -19,8 +19,8 @@ public class ReservationController {
     private ReservationService reservationService;
 
     @RequestMapping(method = RequestMethod.GET)
-    public List<ReservationDto> getAll() {
-        return reservationService.findAll();
+    public Page<Reservation> getAll(Pageable pageable) {
+        return reservationService.findAll(pageable);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
