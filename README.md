@@ -4,3 +4,9 @@ docker exec -it IsuCorpReservation /bin/bash
 
 # Rest api documentation  
 http://localhost:8080/swagger-ui.html
+
+# Build
+mvn clean install -Dmaven.test.skip=true
+
+# Run
+mvn spring-boot:run
